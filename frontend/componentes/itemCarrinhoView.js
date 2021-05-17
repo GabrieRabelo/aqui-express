@@ -11,7 +11,7 @@ class ItemCarrinhoView {
     if (this.elemento) return this.elemento;
 
     let template = `
-      <div class="produto">  
+      <div class="product">  
         <div class="inner">
           <div class="descricao"></div>
           <div class="preco"></div>

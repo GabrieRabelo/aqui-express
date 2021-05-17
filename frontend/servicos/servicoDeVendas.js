@@ -79,11 +79,10 @@ class ServicoDeVendas {
         let dados = await resposta.json();
         for (let i = 0; i < dados.length; i++) {
           produtos.push(
-            new Produto(
-              dados[i].codigo,
-              dados[i].descricao,
-              dados[i].preco,
-              dados[i].qtdade
+            new Product(
+              dados[i].id,
+              dados[i].description,
+              dados[i].price,
             )
           );
         }
