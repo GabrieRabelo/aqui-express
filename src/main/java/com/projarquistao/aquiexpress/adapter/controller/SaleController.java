@@ -1,30 +1,30 @@
-package com.projarquistao.aquiexpress;
+package com.projarquistao.aquiexpress.adapter.controller;
 
 import com.projarquistao.aquiexpress.application.use_case.ListProductsUC;
+import com.projarquistao.aquiexpress.application.use_case.VerifyInventoryItemAvailabilityUC;
 import com.projarquistao.aquiexpress.business.model.Product;
-import com.projarquistao.aquiexpress.business.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/vendas")
 public class SaleController {
-//    private final List<Product> produtos;
+    //    private final List<Product> produtos;
 //    private final List<String> vendasEfetuadas;
     private final ListProductsUC listProductsUC;
+    private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
 
     @Autowired
-    public SaleController(ListProductsUC listProductsUC) {
+    public SaleController(ListProductsUC listProductsUC,
+                          VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC) {
         this.listProductsUC = listProductsUC;
+        this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
     }
 
     @GetMapping("/produtos")
@@ -33,12 +33,13 @@ public class SaleController {
         return listProductsUC.findAll();
     }
 
-//    @GetMapping("/autorizacao")
-//    @CrossOrigin(origins = "*")
-//    public boolean podeVender(@RequestParam final Integer codProd,
-//                              @RequestParam final Integer qtdade) {
-//        return produtos.stream().anyMatch(p -> p.getId() == codProd);
-//    }
+
+    @GetMapping("/autorizacao")
+    @CrossOrigin(origins = "*")
+    public boolean podeVender(@RequestParam final Integer codProd,
+                              @RequestParam final Integer qtdade) {
+        return verifyInventoryItemAvailabilityUC.isAvailable(codProd, qtdade);
+    }
 //
 //    @PostMapping("/confirmacao")
 //    @CrossOrigin(origins = "*")
