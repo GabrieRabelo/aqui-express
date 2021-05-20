@@ -1,14 +1,12 @@
 package com.projarquistao.aquiexpress.adapter.controller;
 
+import com.projarquistao.aquiexpress.application.use_case.ConfirmSaleUC;
 import com.projarquistao.aquiexpress.application.use_case.ListProductsUC;
 import com.projarquistao.aquiexpress.application.use_case.VerifyInventoryItemAvailabilityUC;
 import com.projarquistao.aquiexpress.business.model.Product;
+import com.projarquistao.aquiexpress.business.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,12 +17,15 @@ public class SaleController {
 //    private final List<String> vendasEfetuadas;
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
+    private final ConfirmSaleUC confirmSaleUC;
 
     @Autowired
     public SaleController(ListProductsUC listProductsUC,
-                          VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC) {
+                          VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
+                          ConfirmSaleUC confirmSaleUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
+        this.confirmSaleUC = confirmSaleUC;
     }
 
     @GetMapping("/produtos")
@@ -40,44 +41,12 @@ public class SaleController {
                               @RequestParam final Integer qtdade) {
         return verifyInventoryItemAvailabilityUC.isAvailable(codProd, qtdade);
     }
-//
-//    @PostMapping("/confirmacao")
-//    @CrossOrigin(origins = "*")
-//    public boolean confirmaVenda(@RequestBody final SaleItem[] itens) {
-//
-//        ArrayList<Product> listaProdutos = new ArrayList<>();
-//        ArrayList<Integer> listaQtdades = new ArrayList<>();
-//
-//        for (SaleItem item : itens) {
-//            final Product produto =
-//                    produtos.stream().filter(p -> p.getId() == item.getId()).findAny().orElse(null);
-//
-//            if (produto == null) {
-//                return false;
-//            }
-//
-//            listaQtdades.add(item.getQuantity());
-//            listaProdutos.add(produto);
-//        }
-//
-//        StringBuilder builder = new StringBuilder();
-//
-//        for (int i = 0; i < listaProdutos.size(); i++) {
-//            final Product produto = listaProdutos.get(i);
-//            final int qtdade = listaQtdades.get(i);
-////            produto.saidaDeProduto(qtdade);
-//
-//            builder.append(produto.getId());
-//            builder.append(" ");
-//            builder.append(produto.getId());
-//            builder.append(" ");
-//            builder.append(qtdade);
-//            builder.append("\n");
-//        }
-//
-//        vendasEfetuadas.add(builder.toString());
-//        return true;
-//    }
+
+    @PostMapping("/confirmacao")
+    @CrossOrigin(origins = "*")
+    public boolean confirmaVenda(@RequestBody final SaleItem[] itens) {
+        return confirmSaleUC.confimSale(itens);
+    }
 //
 //    @GetMapping("/historico")
 //    @CrossOrigin(origins = "*")
