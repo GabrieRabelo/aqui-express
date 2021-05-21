@@ -1,10 +1,10 @@
 class Carrinho {
-  mudarQuantidade(codProd, qtdade) {
-    if (Number.isNaN(qtdade) || qtdade <= 0) return;
+  mudarQuantidade(codProd, quantity) {
+    if (Number.isNaN(quantity) || quantity <= 0) return;
 
     let item = this.recuperarItem(codProd);
     if (item === undefined) return;
-    item.qtdade = qtdade;
+    item.quantity = quantity;
   }
 
   recuperarItem(codProd) {
