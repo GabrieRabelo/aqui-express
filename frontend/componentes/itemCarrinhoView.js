@@ -1,10 +1,10 @@
 class ItemCarrinhoView {
   definirQuantidade(qtd) {
-    const preco = (this.itemCarrinho.product.preco * qtd).toFixed(2);
-    this.preco.textContent = "R$ " + preco;
+    const price = (this.itemCarrinho.product.price * qtd).toFixed(2);
+    this.price.textContent = "R$ " + price;
     this.qtd.value = qtd;
 
-    this.itemCarrinho.qtdade = qtd;
+    this.itemCarrinho.quantity = qtd;
   }
 
   criarElemento() {
@@ -14,7 +14,7 @@ class ItemCarrinhoView {
       <div class="product">  
         <div class="inner">
           <div class="descricao"></div>
-          <div class="preco"></div>
+          <div class="price"></div>
           <div class="qtd">
             <label>Qtd:</label>
             <input type="text" value="1" />
@@ -28,11 +28,11 @@ class ItemCarrinhoView {
     const elemento = temp.content.firstChild;
 
     this.descricao = elemento.querySelector(".descricao");
-    this.preco = elemento.querySelector(".preco");
+    this.price = elemento.querySelector(".price");
     this.qtd = elemento.querySelector("input");
 
-    this.descricao.innerHTML = this.itemCarrinho.product.descricao;
-    this.definirQuantidade(this.itemCarrinho.qtdade);
+    this.descricao.innerHTML = this.itemCarrinho.product.description;
+    this.definirQuantidade(this.itemCarrinho.quantity);
 
     this.elemento = elemento;
     return elemento;
@@ -47,7 +47,7 @@ class ItemCarrinhoView {
     this.itemCarrinho = itemCarrinho;
     this.descricao = null;
     this.elemento = null;
-    this.preco = null;
+    this.price = null;
     this.qtd = null;
   }
 }

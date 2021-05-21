@@ -1,13 +1,13 @@
 class CarrinhoView {
-  mudarQuantidade(codProd, qtdade) {
+  mudarQuantidade(codProd, quantity) {
     let view = this.views.find(
       (view) => view.itemCarrinho.product.id === codProd
     );
 
     if (view === undefined) return;
 
-    this.carrinho.mudarQuantidade(codProd, qtdade);
-    view.definirQuantidade(qtdade);
+    this.carrinho.mudarQuantidade(codProd, quantity);
+    view.definirQuantidade(quantity);
   }
 
   mostrarTextoVazio(mostrar) {
@@ -32,7 +32,7 @@ class CarrinhoView {
   quantidade(codProd) {
     let item = this.carrinho.recuperarItem(codProd)
     if (item === undefined) return -1;
-    return item.qtdade;
+    return item.quantity;
   }
 
   limpar() {

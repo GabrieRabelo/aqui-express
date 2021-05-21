@@ -19,11 +19,11 @@ async function mudarQuantidade(itemCarrinhoView) {
   const id = itemCarrinhoView.itemCarrinho.product.id;
   const valor = itemCarrinhoView.qtd.value;
   const num = Number.parseInt(valor);
-  var qtdade = 1;
+  var quantity = 1;
 
   if (!(Number.isNaN(num) || num < 1)) {
-    qtdade = Math.floor(num);
-    let autorizado = await servico.autoriza(id, qtdade);
+    quantity = Math.floor(num);
+    let autorizado = await servico.autoriza(id, quantity);
     if (!autorizado) {
       saida.quantidadeIndisponivel();
       limparCarrinho();
@@ -31,12 +31,11 @@ async function mudarQuantidade(itemCarrinhoView) {
     }
   }
 
-  this.carrinho.mudarQuantidade(id, qtdade);
+  this.carrinho.mudarQuantidade(id, quantity);
   await calcularSubtotal();
 }
 
 async function adicionarAoCarrinho(product) {
-  debugger
   
   let qtd = await carrinho.quantidade(product.id);
   
