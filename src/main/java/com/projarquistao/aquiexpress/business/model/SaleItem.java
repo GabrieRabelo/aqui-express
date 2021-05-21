@@ -2,6 +2,7 @@ package com.projarquistao.aquiexpress.business.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -10,6 +11,7 @@ public class SaleItem {
     private long id;
     private int quantity;
     @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
     private float currentPrice;
     private float taxes;

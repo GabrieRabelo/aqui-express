@@ -1,9 +1,11 @@
 package com.projarquistao.aquiexpress.adapter.controller;
 
 import com.projarquistao.aquiexpress.application.use_case.ConfirmSaleUC;
+import com.projarquistao.aquiexpress.application.use_case.HistoryUC;
 import com.projarquistao.aquiexpress.application.use_case.ListProductsUC;
 import com.projarquistao.aquiexpress.application.use_case.VerifyInventoryItemAvailabilityUC;
 import com.projarquistao.aquiexpress.business.model.Product;
+import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +18,16 @@ public class SaleController {
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
     private final ConfirmSaleUC confirmSaleUC;
+    private final HistoryUC historyUC;
 
     @Autowired
     public SaleController(ListProductsUC listProductsUC,
                           VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
-                          ConfirmSaleUC confirmSaleUC) {
+                          ConfirmSaleUC confirmSaleUC, HistoryUC historyUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
         this.confirmSaleUC = confirmSaleUC;
+        this.historyUC = historyUC;
     }
 
     @GetMapping("/produtos")
@@ -45,12 +49,14 @@ public class SaleController {
     public boolean confirmaVenda(@RequestBody final SaleItem[] itens) {
         return confirmSaleUC.confirmSale(itens);
     }
-//
-//    @GetMapping("/historico")
-//    @CrossOrigin(origins = "*")
-//    public List<String> vendasEfetuadas() {
-//        return vendasEfetuadas;
-//    }
+
+    @GetMapping("/historico")
+    @CrossOrigin(origins = "*")
+    public List<Sale> vendasEfetuadas() {
+        return historyUC.findAllSales();
+    }
+
+
 //
 //    @PostMapping("/subtotal")
 //    @CrossOrigin(origins = "*")

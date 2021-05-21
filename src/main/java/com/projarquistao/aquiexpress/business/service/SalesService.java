@@ -49,4 +49,8 @@ public class SalesService {
 
         return true;
     }
+
+    public List<Sale> findAllSales() {
+        return saleRepository.findAll();
+    }
 }
