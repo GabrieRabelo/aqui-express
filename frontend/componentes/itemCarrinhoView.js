@@ -1,6 +1,6 @@
 class ItemCarrinhoView {
   definirQuantidade(qtd) {
-    const preco = (this.itemCarrinho.produto.preco * qtd).toFixed(2);
+    const preco = (this.itemCarrinho.product.preco * qtd).toFixed(2);
     this.preco.textContent = "R$ " + preco;
     this.qtd.value = qtd;
 
@@ -31,7 +31,7 @@ class ItemCarrinhoView {
     this.preco = elemento.querySelector(".preco");
     this.qtd = elemento.querySelector("input");
 
-    this.descricao.innerHTML = this.itemCarrinho.produto.descricao;
+    this.descricao.innerHTML = this.itemCarrinho.product.descricao;
     this.definirQuantidade(this.itemCarrinho.qtdade);
 
     this.elemento = elemento;

@@ -1,6 +1,6 @@
 class ItemCarrinho {
-  constructor(produto, qtdade) {
-    this.produto = produto;
+  constructor(product, qtdade) {
+    this.product = product;
     this.qtdade = qtdade;
   }
 }

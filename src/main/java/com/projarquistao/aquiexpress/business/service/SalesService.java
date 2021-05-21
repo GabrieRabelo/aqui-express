@@ -1,7 +1,11 @@
 package com.projarquistao.aquiexpress.business.service;
 
 import com.projarquistao.aquiexpress.business.model.Product;
+import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
+import com.projarquistao.aquiexpress.business.repository.InventoryItemRepository;
+import com.projarquistao.aquiexpress.business.repository.ProductRepository;
+import com.projarquistao.aquiexpress.business.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,44 +15,38 @@ import java.util.List;
 @Service
 public class SalesService {
 
-    private final ProductService productService;
+    private final ProductRepository productRepository;
+    private final SaleRepository saleRepository;
+    private final InventoryItemRepository inventoryItemRepository;
 
     @Autowired
-    public SalesService(ProductService productService) {this.productService = productService;}
+    public SalesService(ProductRepository productRepository, SaleRepository saleRepository, InventoryItemRepository inventoryItemRepository) {
+        this.productRepository = productRepository;
+        this.saleRepository = saleRepository;
+        this.inventoryItemRepository = inventoryItemRepository;
+    }
 
-    public boolean confirmSale(SaleItem saleItem[]){
-//        ArrayList<Product> listaProdutos = new ArrayList<>();
-//        ArrayList<Integer> listaQtdades = new ArrayList<>();
-//
-//        for (SaleItem item : itens) {
-//            final Product produto =
-//                    produtos.stream().filter(p -> p.getId() == item.getId()).findAny().orElse(null);
-//
-//            if (produto == null) {
-//                return false;
-//            }
-//
-//            listaQtdades.add(item.getQuantity());
-//            listaProdutos.add(produto);
-//        }
-//
-//        StringBuilder builder = new StringBuilder();
-//
-//        for (int i = 0; i < listaProdutos.size(); i++) {
-//            final Product produto = listaProdutos.get(i);
-//            final int qtdade = listaQtdades.get(i);
-////            produto.saidaDeProduto(qtdade);
-//
-//            builder.append(produto.getId());
-//            builder.append(" ");
-//            builder.append(produto.getId());
-//            builder.append(" ");
-//            builder.append(qtdade);
-//            builder.append("\n");
-//        }
-//
-//        vendasEfetuadas.add(builder.toString());
-//        return true;
-        return false;
+    public boolean confirmSale(SaleItem saleItems[]){
+
+        List<SaleItem> saleItemList = new ArrayList<>();
+
+        for (SaleItem saleItem : saleItems) {
+            final var productOptional = productRepository.findById(saleItem.getProduct().getId());
+            if (productOptional.isEmpty()) return false;
+
+            saleItem.setCurrentPrice(productOptional.get().getPrice());
+            saleItemList.add(saleItem);
+        }
+
+        for (SaleItem saleItem : saleItems) {
+            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProduct().getId());
+
+            inventoryItem.get().subtractQuantity(saleItem.getQuantity());
+        }
+
+        var sale = new Sale(saleItemList);
+        saleRepository.save(sale);
+
+        return true;
     }
 }

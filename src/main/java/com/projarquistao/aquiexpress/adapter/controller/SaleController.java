@@ -13,8 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/vendas")
 public class SaleController {
-    //    private final List<Product> produtos;
-//    private final List<String> vendasEfetuadas;
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
     private final ConfirmSaleUC confirmSaleUC;
@@ -45,7 +43,7 @@ public class SaleController {
     @PostMapping("/confirmacao")
     @CrossOrigin(origins = "*")
     public boolean confirmaVenda(@RequestBody final SaleItem[] itens) {
-        return confirmSaleUC.confimSale(itens);
+        return confirmSaleUC.confirmSale(itens);
     }
 //
 //    @GetMapping("/historico")

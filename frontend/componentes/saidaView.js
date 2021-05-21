@@ -8,7 +8,7 @@ class SaidaView {
 
   quantidadeIndisponivel() {
     this.root.innerHTML =
-      this.icError + " Quantidade excede o dispon&iacute;vel para o produto";
+      this.icError + " Quantidade excede o dispon&iacute;vel para o product";
   }
 
   produtoIndisponivel() {

@@ -1,6 +1,6 @@
 class ProdutoListView {
-  _adicionarProduto(produto) {
-    const produtoView = new ProductView(produto);
+  _adicionarProduto(product) {
+    const produtoView = new ProductView(product);
     const element = produtoView.criarElemento();
     this.root.appendChild(element);
     this.views.push(produtoView);

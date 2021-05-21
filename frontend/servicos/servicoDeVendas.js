@@ -1,7 +1,7 @@
 class ServicoDeVendas {
-  async autoriza(codigo, quantidade) {
+  async autoriza(id, quantidade) {
     let url = this.baseUrl + "/vendas/autorizacao";
-    url += "?codProd=" + codigo + "&qtdade=" + quantidade;
+    url += "?codProd=" + id + "&qtdade=" + quantidade;
 
     try {
       let resposta = await fetch(url);
@@ -22,7 +22,7 @@ class ServicoDeVendas {
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ codigo: item.produto.codigo, quantidade: item.qtdade });
+      param.push({ id: item.product.id, quantidade: item.qtdade });
     });
 
     const otherParam = {
@@ -48,7 +48,7 @@ class ServicoDeVendas {
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ codigo: item.produto.codigo, quantidade: item.qtdade });
+      param.push({ id: item.product.id, quantidade: item.qtdade });
     });
 
     const otherParam = {

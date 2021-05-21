@@ -16,14 +16,14 @@ var saida;
 var total;
 
 async function mudarQuantidade(itemCarrinhoView) {
-  const codigo = itemCarrinhoView.itemCarrinho.produto.codigo;
+  const id = itemCarrinhoView.itemCarrinho.product.id;
   const valor = itemCarrinhoView.qtd.value;
   const num = Number.parseInt(valor);
   var qtdade = 1;
 
   if (!(Number.isNaN(num) || num < 1)) {
     qtdade = Math.floor(num);
-    let autorizado = await servico.autoriza(codigo, qtdade);
+    let autorizado = await servico.autoriza(id, qtdade);
     if (!autorizado) {
       saida.quantidadeIndisponivel();
       limparCarrinho();
@@ -31,26 +31,27 @@ async function mudarQuantidade(itemCarrinhoView) {
     }
   }
 
-  this.carrinho.mudarQuantidade(codigo, qtdade);
+  this.carrinho.mudarQuantidade(id, qtdade);
   await calcularSubtotal();
 }
 
-async function adicionarAoCarrinho(produto) {
+async function adicionarAoCarrinho(product) {
+  debugger
   
-  let qtd = await carrinho.quantidade(produto.codigo);
+  let qtd = await carrinho.quantidade(product.id);
   
   if (qtd > 0) {
-    let autorizado = await servico.autoriza(produto.codigo, qtd + 1);
+    let autorizado = await servico.autoriza(product.id, qtd + 1);
     if (autorizado) {
-      carrinho.mudarQuantidade(produto.codigo, qtd + 1);
+      carrinho.mudarQuantidade(product.id, qtd + 1);
     } else {
       return saida.quantidadeIndisponivel();
     }
   } else {
-    let autorizado = await servico.autoriza(produto.codigo, 1);
+    let autorizado = await servico.autoriza(product.id, 1);
     if (!autorizado) return saida.produtoIndisponivel();
     
-    let view = carrinho.adicionarItem(produto);
+    let view = carrinho.adicionarItem(product);
     bindItem(view);
     
     btnCheckout.disabled = false;
@@ -103,7 +104,7 @@ async function checkout() {
 function bindProdutos(produtoViews) {
   produtoViews.forEach((view) => {
     view.btnSelect.addEventListener("click", () => {
-      adicionarAoCarrinho(view.produto);
+      adicionarAoCarrinho(view.product);
     });
   });
 }

@@ -23,4 +23,8 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepository {
         return inventoryItemRepositoryJPA.findById(id);
     }
 
+    @Override
+    public InventoryItem save(InventoryItem inventoryItem) {
+        return inventoryItemRepositoryJPA.save(inventoryItem);
+    }
 }

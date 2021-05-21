@@ -1,7 +1,7 @@
 class CarrinhoView {
   mudarQuantidade(codProd, qtdade) {
     let view = this.views.find(
-      (view) => view.itemCarrinho.produto.codigo === codProd
+      (view) => view.itemCarrinho.product.id === codProd
     );
 
     if (view === undefined) return;
@@ -15,8 +15,8 @@ class CarrinhoView {
     else this.txtVazio.style.display = "none";
   }
 
-  adicionarItem(produto) {
-    let item = new ItemCarrinho(produto, 1);
+  adicionarItem(product) {
+    let item = new ItemCarrinho(product, 1);
     let view = new ItemCarrinhoView(item);
 
     this.carrinho.adicionarItem(item);

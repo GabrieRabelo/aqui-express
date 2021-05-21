@@ -1,17 +1,20 @@
 package com.projarquistao.aquiexpress.business.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class SaleItem {
+    @Id
     private long id;
     private int quantity;
+    @OneToOne
     private Product product;
+    private float currentPrice;
     private float taxes;
 
-    public SaleItem(long id, int quantity, Product product, float taxes) {
-        this.id = id;
-        this.quantity = quantity;
-        this.product = product;
-        this.taxes = taxes;
-    }
+    protected SaleItem() {}
 
     public long getId() {
         return id;
@@ -27,5 +30,9 @@ public class SaleItem {
 
     public float getTaxes() {
         return taxes;
+    }
+
+    public void setCurrentPrice(float currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }

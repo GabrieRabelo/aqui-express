@@ -14,7 +14,7 @@ public class ConfirmSaleUC {
         this.salesService = salesService;
     }
 
-    public boolean confimSale(SaleItem[] saleItem){
+    public boolean confirmSale(SaleItem[] saleItem){
         return salesService.confirmSale(saleItem);
     }
 }

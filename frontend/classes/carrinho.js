@@ -8,7 +8,7 @@ class Carrinho {
   }
 
   recuperarItem(codProd) {
-    return this.itens.find((x) => x.produto.codigo == codProd);
+    return this.itens.find((x) => x.product.id == codProd);
   }
 
   adicionarItem(item) {

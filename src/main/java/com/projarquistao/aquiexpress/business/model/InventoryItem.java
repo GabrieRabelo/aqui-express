@@ -10,8 +10,7 @@ public class InventoryItem {
     private long id;
     private int availableQuantity;
 
-    protected InventoryItem() {
-    }
+    protected InventoryItem() {}
 
     public long getId() {
         return id;
@@ -19,5 +18,16 @@ public class InventoryItem {
 
     public int getAvailableQuantity() {
         return availableQuantity;
+    }
+
+    public void subtractQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantidade deve ser maior que zero.");
+        }
+
+        if (quantity > availableQuantity) {
+            throw new IllegalArgumentException("Quantidade não pode ser maior que a quantidade disponível atual.");
+        }
+        availableQuantity -= quantity;
     }
 }
