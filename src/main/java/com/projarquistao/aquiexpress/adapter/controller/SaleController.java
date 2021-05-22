@@ -1,5 +1,6 @@
 package com.projarquistao.aquiexpress.adapter.controller;
 
+import com.projarquistao.aquiexpress.business.service.dto.SubtotalDTO;
 import com.projarquistao.aquiexpress.application.use_case.ConfirmSaleUC;
 import com.projarquistao.aquiexpress.application.use_case.HistoryUC;
 import com.projarquistao.aquiexpress.application.use_case.ListProductsUC;
@@ -63,7 +64,7 @@ public class SaleController {
 
     @PostMapping("/subtotal")
     @CrossOrigin(origins = "*")
-    public Integer[] calculaSubtotal(@RequestBody final SaleItem[] itens) {
+    public SubtotalDTO calculaSubtotal(@RequestBody final SaleItem[] itens) {
         return subtotalUC.calculateSubtotal(itens);
     }
 }

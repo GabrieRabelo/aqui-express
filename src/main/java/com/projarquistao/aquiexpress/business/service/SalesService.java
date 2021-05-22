@@ -1,5 +1,6 @@
 package com.projarquistao.aquiexpress.business.service;
 
+import com.projarquistao.aquiexpress.business.service.dto.SubtotalDTO;
 import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
 import com.projarquistao.aquiexpress.business.repository.InventoryItemRepository;
@@ -56,7 +57,7 @@ public class SalesService {
         return saleRepository.findAll();
     }
 
-    public Integer[] calculateSubtotal(final SaleItem[] itens) {
+    public SubtotalDTO calculateSubtotal(final SaleItem[] itens) {
         var subtotal = 0;
         var imposto = 0;
 
@@ -71,10 +72,6 @@ public class SalesService {
             }
         }
         imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));
-        final Integer[] resp = new Integer[3];
-        resp[0] = subtotal;
-        resp[1] = imposto;
-        resp[2] = subtotal + imposto;
-        return resp;
+        return new SubtotalDTO(subtotal, imposto);
     }
 }
