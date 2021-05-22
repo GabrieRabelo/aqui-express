@@ -26,7 +26,7 @@ public class SalesService {
         this.inventoryItemRepository = inventoryItemRepository;
     }
 
-    public boolean confirmSale(SaleItem saleItems[]){
+    public boolean confirmSale(SaleItem[] saleItems){
 
         List<SaleItem> saleItemList = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public class SalesService {
         for (SaleItem saleItem : saleItems) {
             final var inventoryItem = inventoryItemRepository.findById(saleItem.getProduct().getId());
 
+            if (inventoryItem.isEmpty()) return false;
             inventoryItem.get().subtractQuantity(saleItem.getQuantity());
         }
 
@@ -52,5 +53,27 @@ public class SalesService {
 
     public List<Sale> findAllSales() {
         return saleRepository.findAll();
+    }
+
+    public Integer[] calculateSubtotal(final SaleItem[] itens) {
+        var subtotal = 0;
+        var imposto = 0;
+
+        for (final SaleItem item : itens) {
+
+            final var prod = productRepository.findById(item.getId());
+
+            if (prod.isPresent()) {
+                subtotal += (int) (prod.get().getPrice() * item.getQuantity());
+            } else {
+                throw new IllegalArgumentException("Codigo invalido");
+            }
+        }
+        imposto = (int) (subtotal * 0.1);
+        final Integer[] resp = new Integer[3];
+        resp[0] = subtotal;
+        resp[1] = imposto;
+        resp[2] = subtotal + imposto;
+        return resp;
     }
 }

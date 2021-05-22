@@ -3,6 +3,7 @@ package com.projarquistao.aquiexpress.adapter.controller;
 import com.projarquistao.aquiexpress.application.use_case.ConfirmSaleUC;
 import com.projarquistao.aquiexpress.application.use_case.HistoryUC;
 import com.projarquistao.aquiexpress.application.use_case.ListProductsUC;
+import com.projarquistao.aquiexpress.application.use_case.SubtotalUC;
 import com.projarquistao.aquiexpress.application.use_case.VerifyInventoryItemAvailabilityUC;
 import com.projarquistao.aquiexpress.business.model.Product;
 import com.projarquistao.aquiexpress.business.model.Sale;
@@ -19,15 +20,17 @@ public class SaleController {
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
     private final ConfirmSaleUC confirmSaleUC;
     private final HistoryUC historyUC;
+    private final SubtotalUC subtotalUC;
 
     @Autowired
     public SaleController(ListProductsUC listProductsUC,
                           VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
-                          ConfirmSaleUC confirmSaleUC, HistoryUC historyUC) {
+                          ConfirmSaleUC confirmSaleUC, HistoryUC historyUC, SubtotalUC subtotalUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
         this.confirmSaleUC = confirmSaleUC;
         this.historyUC = historyUC;
+        this.subtotalUC = subtotalUC;
     }
 
     @GetMapping("/produtos")
@@ -57,29 +60,10 @@ public class SaleController {
     }
 
 
-//
-//    @PostMapping("/subtotal")
-//    @CrossOrigin(origins = "*")
-//    public Integer[] calculaSubtotal(@RequestBody final SaleItem[] itens) {
-//        Integer subtotal = 0;
-//        Integer imposto = 0;
-//
-//        for (final SaleItem it : itens) {
-//            // Procurar o produto pelo código
-//            final Product prod =
-//                    produtos.stream().filter(p -> p.getId() == it.getId()).findAny().orElse(null);
-//
-//            if (prod != null) {
-//                subtotal += (int) (prod.getPrice() * it.getQuantity());
-//            } else {
-//                throw new IllegalArgumentException("Codigo invalido");
-//            }
-//        }
-//        imposto = (int) (subtotal * 0.1);
-//        final Integer[] resp = new Integer[3];
-//        resp[0] = subtotal;
-//        resp[1] = imposto;
-//        resp[2] = subtotal + imposto;
-//        return resp;
-//    }
+
+    @PostMapping("/subtotal")
+    @CrossOrigin(origins = "*")
+    public Integer[] calculaSubtotal(@RequestBody final SaleItem[] itens) {
+        return subtotalUC.calculateSubtotal(itens);
+    }
 }
