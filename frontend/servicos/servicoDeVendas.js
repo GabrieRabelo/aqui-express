@@ -52,6 +52,7 @@ class ServicoDeVendas {
   }
 
   async confirmaVenda(itens) {
+    debugger
     const url = this.baseUrl + "/vendas/confirmacao";
     const param = [];
 

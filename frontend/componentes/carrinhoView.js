@@ -16,7 +16,7 @@ class CarrinhoView {
   }
 
   adicionarItem(product) {
-    let item = new ItemCarrinho(product, 1);
+    let item = new ItemCarrinho(product, 1, product.price);
     let view = new ItemCarrinhoView(item);
 
     this.carrinho.adicionarItem(item);
