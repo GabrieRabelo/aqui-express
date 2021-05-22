@@ -1,6 +1,5 @@
 package com.projarquistao.aquiexpress.business.service;
 
-import com.projarquistao.aquiexpress.business.model.Product;
 import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
 import com.projarquistao.aquiexpress.business.repository.InventoryItemRepository;
@@ -18,12 +17,14 @@ public class SalesService {
     private final ProductRepository productRepository;
     private final SaleRepository saleRepository;
     private final InventoryItemRepository inventoryItemRepository;
+    private final ITaxCalculator taxCalculator;
 
     @Autowired
-    public SalesService(ProductRepository productRepository, SaleRepository saleRepository, InventoryItemRepository inventoryItemRepository) {
+    public SalesService(ProductRepository productRepository, SaleRepository saleRepository, InventoryItemRepository inventoryItemRepository, ITaxCalculator taxCalculator) {
         this.productRepository = productRepository;
         this.saleRepository = saleRepository;
         this.inventoryItemRepository = inventoryItemRepository;
+        this.taxCalculator = taxCalculator;
     }
 
     public boolean confirmSale(SaleItem[] saleItems){
@@ -69,7 +70,7 @@ public class SalesService {
                 throw new IllegalArgumentException("Codigo invalido");
             }
         }
-        imposto = (int) (subtotal * 0.1);
+        imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));
         final Integer[] resp = new Integer[3];
         resp[0] = subtotal;
         resp[1] = imposto;
