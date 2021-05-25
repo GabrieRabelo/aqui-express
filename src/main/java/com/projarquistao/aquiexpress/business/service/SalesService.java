@@ -19,13 +19,15 @@ public class SalesService {
     private final SaleRepository saleRepository;
     private final InventoryItemRepository inventoryItemRepository;
     private final ITaxCalculator taxCalculator;
+    private final RestrictionFactory restrictionFactory;
 
     @Autowired
-    public SalesService(ProductRepository productRepository, SaleRepository saleRepository, InventoryItemRepository inventoryItemRepository, ITaxCalculator taxCalculator) {
+    public SalesService(ProductRepository productRepository, SaleRepository saleRepository, InventoryItemRepository inventoryItemRepository, ITaxCalculator taxCalculator, RestrictionFactory restrictionFactory) {
         this.productRepository = productRepository;
         this.saleRepository = saleRepository;
         this.inventoryItemRepository = inventoryItemRepository;
         this.taxCalculator = taxCalculator;
+        this.restrictionFactory = restrictionFactory;
     }
 
     public boolean confirmSale(SaleItem[] saleItems){
@@ -50,14 +52,15 @@ public class SalesService {
         var sale = new Sale(saleItemList);
         saleRepository.save(sale);
 
-        return true;
+        var restrictionInstance = restrictionFactory.getInstance();
+        return restrictionInstance.canSell(saleItemList);
     }
 
     public List<Sale> findAllSales() {
         return saleRepository.findAll();
     }
 
-    public SubtotalDTO calculateSubtotal(final SaleItem[] itens) {
+    public int[] calculateSubtotal(final SaleItem[] itens) {
         var subtotal = 0;
         var imposto = 0;
 
@@ -72,6 +75,9 @@ public class SalesService {
             }
         }
         imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));
-        return new SubtotalDTO(subtotal, imposto);
+
+//        var total = new SubtotalDTO(subtotal, imposto);
+        var total = new int[] {subtotal, imposto, subtotal + imposto};
+        return total;
     }
 }

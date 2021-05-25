@@ -1,7 +1,7 @@
 package com.projarquistao.aquiexpress.adapter.config;
 
-import com.projarquistao.aquiexpress.application.service.TaxCalculatorNormal;
-import com.projarquistao.aquiexpress.application.service.TaxCalculatorValueBased;
+import com.projarquistao.aquiexpress.application.service.tax.TaxCalculatorNormal;
+import com.projarquistao.aquiexpress.application.service.tax.TaxCalculatorValueBased;
 import com.projarquistao.aquiexpress.business.service.ITaxCalculator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

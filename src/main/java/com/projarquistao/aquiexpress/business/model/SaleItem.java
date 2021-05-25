@@ -30,6 +30,10 @@ public class SaleItem {
         return product;
     }
 
+    public float getCurrentPrice() {
+        return this.currentPrice;
+    }
+
     public float getTaxes() {
         return taxes;
     }

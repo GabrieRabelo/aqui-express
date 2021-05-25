@@ -14,7 +14,7 @@ public class SubtotalUC {
         this.salesService = salesService;
     }
 
-    public SubtotalDTO calculateSubtotal(final SaleItem[] itens) {
+    public int[] calculateSubtotal(final SaleItem[] itens) {
         return salesService.calculateSubtotal(itens);
     }
 

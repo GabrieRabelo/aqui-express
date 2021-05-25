@@ -18,14 +18,11 @@ class ServicoDeVendas {
   }
 
   async calculaSubtotal(itens) {
-    return [50.0, 10.0, 60.0];
-
-
     const url = this.baseUrl + "/vendas/subtotal";
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ id: item.product.id, quantidade: item.qtdade });
+      param.push({ id: item.product.id, quantity: item.quantity, currentPrice: item.currentPrice, product: item.product });
     });
 
     const otherParam = {
@@ -34,7 +31,6 @@ class ServicoDeVendas {
       method: "POST",
     };
 
-
     try {
       let resposta = await fetch(url, otherParam);
       if (resposta.ok) {
@@ -42,10 +38,6 @@ class ServicoDeVendas {
         return totais;
       }
     } catch (erro) {
-      //        resp[0] = subtotal;
-      //        resp[1] = imposto;
-      //        resp[2] = subtotal + imposto;
-
       console.log(erro);
     }
     return null;
@@ -56,7 +48,7 @@ class ServicoDeVendas {
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ id: item.product.id, quantity: item.quantity, price: item.price });
+      param.push({ id: item.product.id, quantity: item.quantity, currentPrice: item.currentPrice, product: item.product });
     });
 
     const otherParam = {
