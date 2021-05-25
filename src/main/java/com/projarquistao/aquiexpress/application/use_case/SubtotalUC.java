@@ -1,6 +1,5 @@
 package com.projarquistao.aquiexpress.application.use_case;
 
-import com.projarquistao.aquiexpress.business.service.dto.SubtotalDTO;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
 import com.projarquistao.aquiexpress.business.service.SalesService;
 import org.springframework.stereotype.Component;

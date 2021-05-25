@@ -1,6 +1,5 @@
 package com.projarquistao.aquiexpress.business.service;
 
-import com.projarquistao.aquiexpress.business.service.dto.SubtotalDTO;
 import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
 import com.projarquistao.aquiexpress.business.repository.InventoryItemRepository;
@@ -47,13 +46,18 @@ public class SalesService {
 
             if (inventoryItem.isEmpty()) return false;
             inventoryItem.get().subtractQuantity(saleItem.getQuantity());
+            inventoryItemRepository.save(inventoryItem.get());
         }
 
-        var sale = new Sale(saleItemList);
-        saleRepository.save(sale);
-
         var restrictionInstance = restrictionFactory.getInstance();
-        return restrictionInstance.canSell(saleItemList);
+
+
+        if (restrictionInstance.canSell(saleItemList)) {
+            var sale = new Sale(saleItemList);
+            saleRepository.save(sale);
+            return true;
+        }
+        return false;
     }
 
     public List<Sale> findAllSales() {

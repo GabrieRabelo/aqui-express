@@ -10,7 +10,7 @@ INSERT INTO inventory_item(id, available_quantity) values (3, 10);
 INSERT INTO inventory_item(id, available_quantity) values (4, 10);
 INSERT INTO inventory_item(id, available_quantity) values (5, 10);
 
-INSERT INTO sale(id, date) values (1, null);
-INSERT INTO sale_item(id, quantity, product_id, current_price, taxes) values (1, 10, 1, 499.90 , 0);
-INSERT INTO sale_sale_item_list(sale_id, sale_item_list_id) values (1, 1);
+-- INSERT INTO sale(id, date) values (1, null);
+-- INSERT INTO sale_item(id, quantity, product_id, current_price, taxes) values (1, 10, 1, 499.90 , 0);
+-- INSERT INTO sale_sale_item_list(sale_id, sale_item_list_id) values (1, 1);
 

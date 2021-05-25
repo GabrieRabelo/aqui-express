@@ -1,19 +1,17 @@
 package com.projarquistao.aquiexpress.business.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class Sale {
-    @Id
+    @Id()
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private LocalDateTime date;
 
-    @OneToMany
+    @OneToMany(mappedBy = "sale")
     private List<SaleItem> saleItemList;
 
     protected Sale() {}
