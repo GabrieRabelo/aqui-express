@@ -34,4 +34,22 @@ public class ProductService {
         }
         return true;
     }
+
+    public int calculateSubtotal(final List<SaleItem> itens) {
+
+        var subtotal = 0;
+
+        for (final SaleItem item : itens) {
+
+            final var prod = productRepository.findById(item.getId());
+
+            if (prod.isPresent()) {
+                subtotal += (int) (prod.get().getPrice() * item.getQuantity());
+            } else {
+                throw new IllegalArgumentException("Codigo invalido");
+            }
+
+        }
+        return subtotal;
+    }
 }

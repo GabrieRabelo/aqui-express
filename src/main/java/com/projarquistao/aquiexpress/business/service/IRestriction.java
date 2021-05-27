@@ -5,5 +5,5 @@ import com.projarquistao.aquiexpress.business.model.SaleItem;
 import java.util.List;
 
 public interface IRestriction {
-    public boolean canSell(List<SaleItem> items);
+    boolean canSell(List<SaleItem> items);
 }

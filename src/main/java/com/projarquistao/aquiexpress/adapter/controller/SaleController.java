@@ -62,7 +62,7 @@ public class SaleController {
 
     @PostMapping("/subtotal")
     @CrossOrigin(origins = "*")
-    public int[] calculaSubtotal(@RequestBody final SaleItem[] itens) {
-        return subtotalUC.calculateSubtotal(itens);
+    public int[] calculaSubtotal(@RequestBody final List<SaleItem> itens) {
+        return subtotalUC.calculaValores(itens);
     }
 }

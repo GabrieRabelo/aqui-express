@@ -2,7 +2,6 @@ package com.projarquistao.aquiexpress.business.service;
 
 import com.projarquistao.aquiexpress.business.model.Sale;
 import com.projarquistao.aquiexpress.business.model.SaleItem;
-import com.projarquistao.aquiexpress.business.repository.ProductRepository;
 import com.projarquistao.aquiexpress.business.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,54 +12,32 @@ import java.util.List;
 public class SalesService {
 
     private final SaleRepository saleRepository;
-    private final ITaxCalculator taxCalculator;
     private final RestrictionFactory restrictionFactory;
-    private final ProductRepository productRepository;
 
     @Autowired
     public SalesService(SaleRepository saleRepository,
-                        ITaxCalculator taxCalculator,
-                        RestrictionFactory restrictionFactory,
-                        ProductRepository productRepository) {
+                        RestrictionFactory restrictionFactory) {
         this.saleRepository = saleRepository;
-        this.taxCalculator = taxCalculator;
         this.restrictionFactory = restrictionFactory;
-        this.productRepository = productRepository;
     }
 
-    public boolean confirmSale(List<SaleItem> saleItems){
-
-        var restrictionInstance = restrictionFactory.getInstance();
-
-        if (!restrictionInstance.canSell(saleItems))
-            return false;
+    public void finishSale(List<SaleItem> saleItems) {
 
         var sale = new Sale(saleItems);
         saleRepository.save(sale);
 
-        return true;
     }
 
     public List<Sale> findAllSales() {
         return saleRepository.findAll();
     }
 
-    public int[] calculateSubtotal(final SaleItem[] itens) {
-        var subtotal = 0;
-        var imposto = 0;
+    public boolean canSell(List<SaleItem> saleItems) {
 
-        for (final SaleItem item : itens) {
+        var restrictionInstance = restrictionFactory.getInstance();
 
-            final var prod = productRepository.findById(item.getId());
+        return restrictionInstance.canSell(saleItems);
 
-            if (prod.isPresent()) {
-                subtotal += (int) (prod.get().getPrice() * item.getQuantity());
-            } else {
-                throw new IllegalArgumentException("Codigo invalido");
-            }
-        }
-        imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));
-
-        return new int[] {subtotal, imposto, subtotal + imposto};
     }
+
 }

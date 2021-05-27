@@ -11,6 +11,7 @@ import java.util.List;
 
 @Component
 public class ConfirmSaleUC {
+
     private final SalesService salesService;
     private final ProductService productService;
     private final InventoryItemService inventoryItemService;
@@ -25,11 +26,19 @@ public class ConfirmSaleUC {
     }
 
     public boolean confirmSale(List<SaleItem> saleItem){
-        if(!productService.isAllAvailable(saleItem) || !inventoryItemService.isAllAvailable(saleItem))
+        if(!canProceedSale(saleItem))
             return false;
 
         inventoryItemService.withdrawInventory(saleItem);
-        return salesService.confirmSale(saleItem);
+        salesService.finishSale(saleItem);
 
+        return true;
+
+    }
+
+    private boolean canProceedSale(List<SaleItem> saleItem) {
+        return productService.isAllAvailable(saleItem)
+                && inventoryItemService.isAllAvailable(saleItem)
+                && salesService.canSell(saleItem);
     }
 }

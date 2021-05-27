@@ -1,20 +1,30 @@
 package com.projarquistao.aquiexpress.application.use_case;
 
 import com.projarquistao.aquiexpress.business.model.SaleItem;
-import com.projarquistao.aquiexpress.business.service.SalesService;
+import com.projarquistao.aquiexpress.business.service.ITaxCalculator;
+import com.projarquistao.aquiexpress.business.service.ProductService;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class SubtotalUC {
 
-    private SalesService salesService;
+    private final ProductService productService;
+    private final ITaxCalculator taxCalculator;
 
-    public SubtotalUC(SalesService salesService) {
-        this.salesService = salesService;
+    public SubtotalUC(ProductService productService,
+                      ITaxCalculator taxCalculator) {
+        this.productService = productService;
+        this.taxCalculator = taxCalculator;
     }
 
-    public int[] calculateSubtotal(final SaleItem[] itens) {
-        return salesService.calculateSubtotal(itens);
+    public int[] calculaValores(final List<SaleItem> itens) {
+
+        var subtotal = productService.calculateSubtotal(itens);
+        var imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));
+
+        return new int[]{subtotal, imposto, subtotal + imposto};
     }
 
 }
