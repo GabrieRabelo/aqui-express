@@ -49,7 +49,7 @@ public class SaleController {
 
     @PostMapping("/confirmacao")
     @CrossOrigin(origins = "*")
-    public boolean confirmaVenda(@RequestBody final SaleItem[] itens) {
+    public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
         return confirmSaleUC.confirmSale(itens);
     }
 
