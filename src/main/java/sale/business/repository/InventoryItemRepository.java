@@ -1,6 +1,6 @@
-package com.projarquistao.aquiexpress.business.repository;
+package sale.business.repository;
 
-import com.projarquistao.aquiexpress.business.model.InventoryItem;
+import sale.business.model.InventoryItem;
 
 import java.util.Optional;
 

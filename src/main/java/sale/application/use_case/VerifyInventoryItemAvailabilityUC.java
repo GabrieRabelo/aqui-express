@@ -1,7 +1,6 @@
-package com.projarquistao.aquiexpress.application.use_case;
+package sale.application.use_case;
 
-import com.projarquistao.aquiexpress.business.model.InventoryItem;
-import com.projarquistao.aquiexpress.business.service.InventoryItemService;
+import sale.business.service.InventoryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

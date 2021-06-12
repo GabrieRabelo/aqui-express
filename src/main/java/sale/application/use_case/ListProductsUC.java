@@ -1,7 +1,7 @@
-package com.projarquistao.aquiexpress.application.use_case;
+package sale.application.use_case;
 
-import com.projarquistao.aquiexpress.business.model.Product;
-import com.projarquistao.aquiexpress.business.service.ProductService;
+import sale.business.model.Product;
+import sale.business.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

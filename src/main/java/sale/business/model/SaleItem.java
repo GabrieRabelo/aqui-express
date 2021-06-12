@@ -1,4 +1,4 @@
-package com.projarquistao.aquiexpress.business.model;
+package sale.business.model;
 
 import javax.persistence.*;
 
@@ -7,7 +7,9 @@ public class SaleItem {
     @Id
     private long id;
     private int quantity;
-    private long productId;
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
     private float currentPrice;
     private float taxes;
     @ManyToOne
@@ -24,12 +26,8 @@ public class SaleItem {
         return quantity;
     }
 
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public Product getProduct() {
+        return product;
     }
 
     public float getCurrentPrice() {

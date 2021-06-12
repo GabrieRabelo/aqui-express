@@ -1,8 +1,8 @@
-package com.projarquistao.aquiexpress.application.use_case;
+package sale.application.use_case;
 
-import com.projarquistao.aquiexpress.business.model.SaleItem;
-import com.projarquistao.aquiexpress.business.service.ITaxCalculator;
-import com.projarquistao.aquiexpress.business.service.ProductService;
+import sale.business.model.SaleItem;
+import sale.business.service.ITaxCalculator;
+import sale.business.service.ProductService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

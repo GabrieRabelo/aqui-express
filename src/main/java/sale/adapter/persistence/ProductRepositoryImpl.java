@@ -1,7 +1,7 @@
-package com.projarquistao.aquiexpress.adapter.persistence;
+package sale.adapter.persistence;
 
-import com.projarquistao.aquiexpress.business.model.Product;
-import com.projarquistao.aquiexpress.business.repository.ProductRepository;
+import sale.business.model.Product;
+import sale.business.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

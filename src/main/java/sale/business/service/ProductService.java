@@ -1,8 +1,8 @@
-package com.projarquistao.aquiexpress.business.service;
+package sale.business.service;
 
-import com.projarquistao.aquiexpress.business.model.Product;
-import com.projarquistao.aquiexpress.business.model.SaleItem;
-import com.projarquistao.aquiexpress.business.repository.ProductRepository;
+import sale.business.model.Product;
+import sale.business.model.SaleItem;
+import sale.business.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

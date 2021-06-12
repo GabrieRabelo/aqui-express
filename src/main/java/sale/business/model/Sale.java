@@ -1,4 +1,4 @@
-package com.projarquistao.aquiexpress.business.model;
+package sale.business.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ public class Sale {
     private long id;
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sale")
     private List<SaleItem> saleItemList;
 
     protected Sale() {}
@@ -23,10 +23,6 @@ public class Sale {
 
     public long getId() {
         return id;
-    }
-
-    public List<SaleItem> getSaleItemList() {
-        return this.saleItemList;
     }
 
     public LocalDateTime getDate() {

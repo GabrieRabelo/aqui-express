@@ -1,6 +1,6 @@
-package com.projarquistao.aquiexpress.application.service.tax;
+package sale.application.service.tax;
 
-import com.projarquistao.aquiexpress.business.service.ITaxCalculator;
+import sale.business.service.ITaxCalculator;
 
 public class TaxCalculatorNormal implements ITaxCalculator {
 
