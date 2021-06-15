@@ -1,8 +1,8 @@
 package com.projarquistao.estoque.application.use_case;
 
+import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.service.ITaxCalculator;
 import com.projarquistao.estoque.business.service.ProductService;
-import com.projarquistao.estoque.business.model.SaleItem;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class SubtotalUC {
         this.taxCalculator = taxCalculator;
     }
 
-    public int[] calculaValores(final List<SaleItem> itens) {
+    public int[] calculaValores(final List<SaleItemDTO> itens) {
 
         var subtotal = productService.calculateSubtotal(itens);
         var imposto = (int) (subtotal * taxCalculator.calculateIVATaxPercentage(subtotal));

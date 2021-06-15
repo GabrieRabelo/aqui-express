@@ -1,7 +1,7 @@
 package com.projarquistao.estoque.business.service;
 
+import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.model.Product;
-import com.projarquistao.estoque.business.model.SaleItem;
 import com.projarquistao.estoque.business.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public boolean isAllAvailable(List<SaleItem> saleItems) {
+    public boolean isAllAvailable(List<SaleItemDTO> saleItems) {
 
-        for (SaleItem saleItem : saleItems) {
-            final var productOptional = productRepository.findById(saleItem.getProduct().getId());
+        for (SaleItemDTO saleItem : saleItems) {
+            final var productOptional = productRepository.findById(saleItem.getProductId());
 
             if (productOptional.isEmpty())
                 return false;
@@ -35,13 +35,13 @@ public class ProductService {
         return true;
     }
 
-    public int calculateSubtotal(final List<SaleItem> itens) {
+    public int calculateSubtotal(final List<SaleItemDTO> itens) {
 
         var subtotal = 0;
 
-        for (final SaleItem item : itens) {
+        for (final SaleItemDTO item : itens) {
 
-            final var prod = productRepository.findById(item.getId());
+            final var prod = productRepository.findById(item.getProductId());
 
             if (prod.isPresent()) {
                 subtotal += (int) (prod.get().getPrice() * item.getQuantity());

@@ -1,8 +1,8 @@
 package com.projarquistao.estoque.business.service;
 
+import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.repository.InventoryItemRepository;
 import com.projarquistao.estoque.business.model.InventoryItem;
-import com.projarquistao.estoque.business.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +27,10 @@ public class InventoryItemService {
         return inventoryItemOptional.get().getAvailableQuantity() >= quantity;
     }
 
-    public boolean isAllAvailable(List<SaleItem> saleItems) {
+    public boolean isAllAvailable(List<SaleItemDTO> saleItems) {
 
-        for (SaleItem saleItem : saleItems) {
-            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProduct().getId());
+        for (SaleItemDTO saleItem : saleItems) {
+            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
 
             if (inventoryItem.isEmpty())
                 return false;
@@ -39,10 +39,10 @@ public class InventoryItemService {
         return true;
     }
 
-    public void withdrawInventory(List<SaleItem> saleItems) {
+    public void withdrawInventory(List<SaleItemDTO> saleItems) {
 
-        for (SaleItem saleItem : saleItems) {
-            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProduct().getId());
+        for (SaleItemDTO saleItem : saleItems) {
+            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
 
             if (inventoryItem.isPresent()){
                 inventoryItem.get().subtractQuantity(saleItem.getQuantity());

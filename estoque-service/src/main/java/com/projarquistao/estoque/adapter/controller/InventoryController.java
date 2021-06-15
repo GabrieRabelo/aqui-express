@@ -1,9 +1,8 @@
 package com.projarquistao.estoque.adapter.controller;
 
 import com.projarquistao.estoque.application.use_case.*;
+import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.model.Product;
-import com.projarquistao.estoque.business.model.Sale;
-import com.projarquistao.estoque.business.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,21 +10,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vendas")
-public class SaleController {
+public class InventoryController {
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
-    private final ConfirmSaleUC confirmSaleUC;
-    private final HistoryUC historyUC;
     private final SubtotalUC subtotalUC;
 
     @Autowired
-    public SaleController(ListProductsUC listProductsUC,
-                          VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
-                          ConfirmSaleUC confirmSaleUC, HistoryUC historyUC, SubtotalUC subtotalUC) {
+    public InventoryController(ListProductsUC listProductsUC,
+                               VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
+                               SubtotalUC subtotalUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
-        this.confirmSaleUC = confirmSaleUC;
-        this.historyUC = historyUC;
         this.subtotalUC = subtotalUC;
     }
 
@@ -35,7 +30,6 @@ public class SaleController {
         return listProductsUC.findAll();
     }
 
-
     @GetMapping("/autorizacao")
     @CrossOrigin(origins = "*")
     public boolean podeVender(@RequestParam final Integer codProd,
@@ -43,22 +37,9 @@ public class SaleController {
         return verifyInventoryItemAvailabilityUC.isAvailable(codProd, qtdade);
     }
 
-    @PostMapping("/confirmacao")
-    @CrossOrigin(origins = "*")
-    public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
-        return confirmSaleUC.confirmSale(itens);
-    }
-
-    @GetMapping("/historico")
-    @CrossOrigin(origins = "*")
-    public List<Sale> vendasEfetuadas() {
-        return historyUC.findAllSales();
-    }
-
-
     @PostMapping("/subtotal")
     @CrossOrigin(origins = "*")
-    public int[] calculaSubtotal(@RequestBody final List<SaleItem> itens) {
+    public int[] calculaSubtotal(@RequestBody final List<SaleItemDTO> itens) {
         return subtotalUC.calculaValores(itens);
     }
 }

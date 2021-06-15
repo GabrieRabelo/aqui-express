@@ -20,7 +20,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public Docket greetingApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.projarquistao.aquiexpress"))
+                .apis(RequestHandlerSelectors.basePackage("com.projarquistao.estoque"))
                 .build()
                 .apiInfo(metaData());
     }
