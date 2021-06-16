@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vendas")
+@RequestMapping("/estoque")
 public class InventoryController {
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
