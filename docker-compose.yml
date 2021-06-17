@@ -19,11 +19,11 @@ services:
       - "8082:8080"
     build: ./estoque-service
     image: "projarquistao/estoque-service:latest"
-#  gateway:
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - "servCotacao"
-#      - "servCambio"
-#    build: ./Gateway
-#    image: "gateway:latest"
+  gateway:
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "vendasService"
+      - "estoqueService"
+    build: ./gateway
+    image: "projarquistao/gateway:latest"
