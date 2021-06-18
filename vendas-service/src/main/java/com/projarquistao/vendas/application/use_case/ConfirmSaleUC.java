@@ -1,5 +1,6 @@
 package com.projarquistao.vendas.application.use_case;
 
+import com.projarquistao.vendas.adapter.client.InventoryClient;
 import com.projarquistao.vendas.business.model.SaleItem;
 import com.projarquistao.vendas.business.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,17 @@ import java.util.List;
 public class ConfirmSaleUC {
 
     private final SalesService salesService;
+    private final InventoryClient inventoryClient;
 
     @Autowired
-    public ConfirmSaleUC(SalesService salesService) {
+    public ConfirmSaleUC(SalesService salesService, InventoryClient inventoryClient) {
         this.salesService = salesService;
+        this.inventoryClient = inventoryClient;
     }
 
     public boolean confirmSale(List<SaleItem> saleItem){
-//        if(!canProceedSale(saleItem))
-//            return false;
+        if(!canProceedSale(saleItem))
+            return false;
 
 //        inventoryItemService.withdrawInventory(saleItem);
         salesService.saveSale(saleItem);
@@ -27,9 +30,10 @@ public class ConfirmSaleUC {
         return true;
     }
 
-//    private boolean canProceedSale(List<SaleItem> saleItem) {
-//        return productService.isAllAvailable(saleItem)
+    private boolean canProceedSale(List<SaleItem> saleItem) {
+//        return inventoryClient.isProductsAvailable(saleItem)
 //                && inventoryItemService.isAllAvailable(saleItem)
 //                && salesService.canSell(saleItem);
-//    }
+        return true;
+    }
 }
