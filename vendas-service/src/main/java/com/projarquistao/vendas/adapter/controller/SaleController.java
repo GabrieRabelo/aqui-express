@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/vendas")
 public class SaleController {
     private final ConfirmSaleUC confirmSaleUC;
@@ -22,13 +23,11 @@ public class SaleController {
     }
 
     @PostMapping("/confirmacao")
-    @CrossOrigin(origins = "*")
     public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
         return confirmSaleUC.confirmSale(itens);
     }
 
     @GetMapping("/historico")
-    @CrossOrigin(origins = "*")
     public List<Sale> vendasEfetuadas() {
         return historyUC.findAllSales();
     }

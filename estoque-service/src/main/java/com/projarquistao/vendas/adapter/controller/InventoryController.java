@@ -9,37 +9,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/estoque")
 public class InventoryController {
     private final ListProductsUC listProductsUC;
     private final VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC;
+    private final VerifySaleAvailabilityUC verifySaleAvailabilityUC;
     private final SubtotalUC subtotalUC;
 
     @Autowired
     public InventoryController(ListProductsUC listProductsUC,
                                VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
+                               VerifySaleAvailabilityUC verifySaleAvailabilityUC,
                                SubtotalUC subtotalUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
+        this.verifySaleAvailabilityUC = verifySaleAvailabilityUC;
         this.subtotalUC = subtotalUC;
     }
 
     @GetMapping("/produtos")
-    @CrossOrigin(origins = "*")
     public List<Product> listaProdutos() {
         return listProductsUC.findAll();
     }
 
     @GetMapping("/autorizacao")
-    @CrossOrigin(origins = "*")
     public boolean podeVender(@RequestParam final Integer codProd,
                               @RequestParam final Integer qtdade) {
         return verifyInventoryItemAvailabilityUC.isAvailable(codProd, qtdade);
     }
 
     @PostMapping("/subtotal")
-    @CrossOrigin(origins = "*")
     public int[] calculaSubtotal(@RequestBody final List<SaleItemDTO> itens) {
         return subtotalUC.calculaValores(itens);
+    }
+
+    @PostMapping("/produtos/disponibilidade")
+    public boolean verificaDisponibilidade(@RequestBody final List<SaleItemDTO> saleItems) {
+        return verifySaleAvailabilityUC.verifyAvailability(saleItems);
     }
 }
