@@ -31,10 +31,7 @@ public class ConfirmSaleUC {
     }
 
     private boolean canProceedSale(List<SaleItem> saleItems) {
-        return inventoryClient.verifyProductAvailability(saleItems);
-//        return inventoryClient.isProductsAvailable(saleItem)
-//                && inventoryItemService.isAllAvailable(saleItem)
-//                && salesService.canSell(saleItem);
-//        return true;
+        return inventoryClient.verifyProductAvailability(saleItems)
+                && salesService.canSell(saleItems);
     }
 }
