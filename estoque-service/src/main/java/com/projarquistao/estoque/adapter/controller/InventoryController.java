@@ -1,6 +1,7 @@
 package com.projarquistao.estoque.adapter.controller;
 
 import com.projarquistao.estoque.application.use_case.*;
+import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.model.Product;
 import org.slf4j.Logger;
@@ -23,19 +24,22 @@ public class InventoryController {
     private final SubtotalUC subtotalUC;
     private final WithdrawInventoryUC withdrawInventoryUC;
     private final RollbackInventoryUC rollbackInventoryUC;
+    private final AddInventoryItemsUC addInventoryItemsUC;
 
     @Autowired
     public InventoryController(ListProductsUC listProductsUC,
                                VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
                                VerifySaleAvailabilityUC verifySaleAvailabilityUC,
                                SubtotalUC subtotalUC, WithdrawInventoryUC withdrawInventoryUC,
-                               RollbackInventoryUC rollbackInventoryUC) {
+                               RollbackInventoryUC rollbackInventoryUC,
+                               AddInventoryItemsUC addInventoryItemsUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
         this.verifySaleAvailabilityUC = verifySaleAvailabilityUC;
         this.subtotalUC = subtotalUC;
         this.withdrawInventoryUC = withdrawInventoryUC;
         this.rollbackInventoryUC = rollbackInventoryUC;
+        this.addInventoryItemsUC = addInventoryItemsUC;
     }
 
     @GetMapping("/produtos")
@@ -61,13 +65,19 @@ public class InventoryController {
 
     @PostMapping("/baixa")
     public boolean baixarEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
-        LOGGER.debug("Withdrawing repository.");
+        LOGGER.debug("Withdrawing inventory.");
         return withdrawInventoryUC.withdrawInventory(saleItems);
     }
 
     @PostMapping("/baixa/rollback")
     public boolean rollbackEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
-        LOGGER.debug("Withdrawing repository.");
+        LOGGER.debug("Rollbacking withdrawn inventory.");
         return rollbackInventoryUC.rollback(saleItems);
+    }
+
+    @PostMapping("/adicionar")
+    public boolean adicionarEstoque(@RequestBody final List<ProductDTO> products) {
+        LOGGER.debug("Adding new items to inventory.");
+        return addInventoryItemsUC.addInventoryItems(products);
     }
 }

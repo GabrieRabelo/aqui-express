@@ -1,6 +1,8 @@
 package com.projarquistao.estoque.business.service;
 
+import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.dto.SaleItemDTO;
+import com.projarquistao.estoque.business.model.Product;
 import com.projarquistao.estoque.business.repository.InventoryItemRepository;
 import com.projarquistao.estoque.business.model.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,24 @@ public class InventoryItemService {
         }
 
         inventoryItemRepository.saveAll(toWithdraw);
+        return true;
+    }
+
+    public boolean addInventoryItems(List<ProductDTO> products) {
+        var toAdd = new ArrayList<InventoryItem>();
+
+        for (ProductDTO product : products) {
+            final var inventoryItem = inventoryItemRepository.findById(product.getId());
+
+            if (inventoryItem.isPresent()) {
+                inventoryItem.get().sumQuantity(product.getQuantity());
+                toAdd.add(inventoryItem.get());
+            } else {
+                return false;
+            }
+        }
+
+        inventoryItemRepository.saveAll(toAdd);
         return true;
     }
 
