@@ -6,6 +6,7 @@ import com.projarquistao.estoque.business.model.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,16 +40,27 @@ public class InventoryItemService {
         return true;
     }
 
-    public void withdrawInventory(List<SaleItemDTO> saleItems) {
+    public boolean withdrawInventory(List<SaleItemDTO> saleItems) {
+
+        var toWithdraw = new ArrayList<InventoryItem>();
 
         for (SaleItemDTO saleItem : saleItems) {
             final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
 
-            if (inventoryItem.isPresent()){
+            if (inventoryItem.isPresent()) {
                 inventoryItem.get().subtractQuantity(saleItem.getQuantity());
-                inventoryItemRepository.save(inventoryItem.get());
+                toWithdraw.add(inventoryItem.get());
+            } else {
+                return false;
             }
         }
+
+        this.save(toWithdraw);
+        return true;
+    }
+
+    private void save(List<InventoryItem> items) {
+        inventoryItemRepository.saveAll(items);
     }
 
 }

@@ -5,6 +5,7 @@ import com.projarquistao.estoque.business.repository.InventoryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,5 +26,10 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepository {
     @Override
     public InventoryItem save(InventoryItem inventoryItem) {
         return inventoryItemRepositoryJPA.save(inventoryItem);
+    }
+
+    @Override
+    public void saveAll(List<InventoryItem> items) {
+        this.inventoryItemRepositoryJPA.saveAll(items);
     }
 }

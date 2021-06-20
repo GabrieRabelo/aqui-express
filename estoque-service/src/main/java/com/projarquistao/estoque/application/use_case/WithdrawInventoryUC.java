@@ -15,7 +15,7 @@ public class WithdrawInventoryUC {
         this.inventoryItemService = inventoryItemService;
     }
 
-    public void withdrawInventory(List<SaleItemDTO> saleItems) {
-        inventoryItemService.withdrawInventory(saleItems);
+    public boolean withdrawInventory(List<SaleItemDTO> saleItems) {
+        return inventoryItemService.withdrawInventory(saleItems);
     }
 }

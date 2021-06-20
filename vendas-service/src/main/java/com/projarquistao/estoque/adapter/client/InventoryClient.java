@@ -30,14 +30,13 @@ public class InventoryClient {
                 .block();
     }
 
-    public Mono<Void> withdrawInventory(List<SaleItem> saleItems) {
+    public Boolean withdrawInventory(List<SaleItem> saleItems) {
         return webClient
                 .post()
                 .uri(uriBuilder -> uriBuilder.path("estoque/baixa").build())
                 .bodyValue(saleItems)
                 .retrieve()
-                .bodyToMono(Void.class)
-                .doOnSuccess(it -> LOGGER.debug("Called successfully inventory service"))
-                .doOnError(it -> LOGGER.error("Error at calling inventory service"));
+                .bodyToMono(Boolean.class)
+                .block();
     }
 }

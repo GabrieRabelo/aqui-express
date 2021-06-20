@@ -32,7 +32,12 @@ public class ConfirmSaleUC {
         }
 
         LOGGER.debug("Calling inventory service Withdraw Method");
-        inventoryClient.withdrawInventory(saleItem).subscribe();
+
+        var withdrawn = inventoryClient.withdrawInventory(saleItem);
+
+        if(!withdrawn) {
+            return false;
+        }
 
         salesService.saveSale(saleItem);
 

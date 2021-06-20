@@ -57,8 +57,8 @@ public class InventoryController {
     }
 
     @PostMapping("/baixa")
-    public void baixarEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
+    public boolean baixarEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
         LOGGER.debug("Withdrawing repository.");
-        withdrawInventoryUC.withdrawInventory(saleItems);
+        return withdrawInventoryUC.withdrawInventory(saleItems);
     }
 }
