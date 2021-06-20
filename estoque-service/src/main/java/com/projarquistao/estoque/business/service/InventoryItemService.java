@@ -55,12 +55,27 @@ public class InventoryItemService {
             }
         }
 
-        this.save(toWithdraw);
+        inventoryItemRepository.saveAll(toWithdraw);
         return true;
     }
 
-    private void save(List<InventoryItem> items) {
-        inventoryItemRepository.saveAll(items);
+    public boolean rollbackInventory(List<SaleItemDTO> saleItems) {
+
+        var toRollback = new ArrayList<InventoryItem>();
+
+        for (SaleItemDTO saleItem : saleItems) {
+            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
+
+            if (inventoryItem.isPresent()) {
+                inventoryItem.get().sumQuantity(saleItem.getQuantity());
+                toRollback.add(inventoryItem.get());
+            } else {
+                return false;
+            }
+        }
+
+        inventoryItemRepository.saveAll(toRollback);
+        return true;
     }
 
 }

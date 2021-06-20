@@ -22,17 +22,20 @@ public class InventoryController {
     private final VerifySaleAvailabilityUC verifySaleAvailabilityUC;
     private final SubtotalUC subtotalUC;
     private final WithdrawInventoryUC withdrawInventoryUC;
+    private final RollbackInventoryUC rollbackInventoryUC;
 
     @Autowired
     public InventoryController(ListProductsUC listProductsUC,
                                VerifyInventoryItemAvailabilityUC verifyInventoryItemAvailabilityUC,
                                VerifySaleAvailabilityUC verifySaleAvailabilityUC,
-                               SubtotalUC subtotalUC, WithdrawInventoryUC withdrawInventoryUC) {
+                               SubtotalUC subtotalUC, WithdrawInventoryUC withdrawInventoryUC,
+                               RollbackInventoryUC rollbackInventoryUC) {
         this.listProductsUC = listProductsUC;
         this.verifyInventoryItemAvailabilityUC = verifyInventoryItemAvailabilityUC;
         this.verifySaleAvailabilityUC = verifySaleAvailabilityUC;
         this.subtotalUC = subtotalUC;
         this.withdrawInventoryUC = withdrawInventoryUC;
+        this.rollbackInventoryUC = rollbackInventoryUC;
     }
 
     @GetMapping("/produtos")
@@ -60,5 +63,11 @@ public class InventoryController {
     public boolean baixarEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
         LOGGER.debug("Withdrawing repository.");
         return withdrawInventoryUC.withdrawInventory(saleItems);
+    }
+
+    @PostMapping("/baixa/rollback")
+    public boolean rollbackEstoque(@RequestBody final List<SaleItemDTO> saleItems) {
+        LOGGER.debug("Withdrawing repository.");
+        return rollbackInventoryUC.rollback(saleItems);
     }
 }

@@ -30,4 +30,12 @@ public class InventoryItem {
         }
         availableQuantity -= quantity;
     }
+
+    public void sumQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantidade deve ser maior que zero.");
+        }
+
+        availableQuantity += quantity;
+    }
 }
