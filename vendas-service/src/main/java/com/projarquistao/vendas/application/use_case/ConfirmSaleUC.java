@@ -3,6 +3,8 @@ package com.projarquistao.vendas.application.use_case;
 import com.projarquistao.vendas.adapter.client.InventoryClient;
 import com.projarquistao.vendas.business.model.SaleItem;
 import com.projarquistao.vendas.business.service.SalesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Component
 public class ConfirmSaleUC {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfirmSaleUC.class);
 
     private final SalesService salesService;
     private final InventoryClient inventoryClient;
@@ -21,8 +25,11 @@ public class ConfirmSaleUC {
     }
 
     public boolean confirmSale(List<SaleItem> saleItem){
-        if(!canProceedSale(saleItem))
+        var cancelSale = !canProceedSale(saleItem);
+        if(cancelSale){
+            LOGGER.debug("Cancelling sale.");
             return false;
+        }
 
 //        inventoryItemService.withdrawInventory(saleItem);
         salesService.saveSale(saleItem);

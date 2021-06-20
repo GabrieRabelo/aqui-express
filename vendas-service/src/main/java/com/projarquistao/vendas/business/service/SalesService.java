@@ -1,9 +1,12 @@
 package com.projarquistao.vendas.business.service;
 
+import com.projarquistao.vendas.application.use_case.ConfirmSaleUC;
 import com.projarquistao.vendas.business.model.Sale;
 import com.projarquistao.vendas.business.model.SaleItem;
 import com.projarquistao.vendas.business.repository.SaleItemRepository;
 import com.projarquistao.vendas.business.repository.SaleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,8 @@ import java.util.List;
 
 @Service
 public class SalesService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SalesService.class);
 
     private final SaleRepository saleRepository;
     private final SaleItemRepository saleItemRepository;
@@ -28,6 +33,7 @@ public class SalesService {
 
         var sale = new Sale();
         saleRepository.save(sale);
+
         sale = saleRepository.findById(sale.getId()).get();
 
         for (SaleItem saleItem : saleItems) {
@@ -46,6 +52,8 @@ public class SalesService {
     public boolean canSell(List<SaleItem> saleItems) {
 
         var restrictionInstance = restrictionFactory.getInstance();
+
+        LOGGER.debug("Current restriction: {}", restrictionInstance.getClass());
 
         return restrictionInstance.canSell(saleItems);
 
