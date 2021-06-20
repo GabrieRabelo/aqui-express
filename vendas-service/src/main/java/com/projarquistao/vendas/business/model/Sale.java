@@ -1,35 +1,41 @@
 package com.projarquistao.vendas.business.model;
 
-import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Sale {
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
+
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER)
-    private List<SaleItem> saleItemList;
+    @OneToMany(targetEntity = SaleItem.class, mappedBy = "sale", fetch = FetchType.EAGER)
+    private List<SaleItem> saleItemList = new ArrayList<>();
 
-    protected Sale() {}
-
-    public Sale(List<SaleItem> saleItemList) {
+    public Sale() {
         this.date = LocalDateTime.now();
-        this.saleItemList = saleItemList;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public List<SaleItem> getSaleItemList() {
-        return this.saleItemList;
     }
 
     public LocalDateTime getDate() {
         return date;
+    }
+
+    public List<SaleItem> getSaleItemList() {
+        return saleItemList;
     }
 }

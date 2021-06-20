@@ -1,22 +1,28 @@
 package com.projarquistao.vendas.business.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 public class SaleItem {
+
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     private int quantity;
     private long productId;
     private float currentPrice;
     private float taxes;
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
+    @JoinColumn(name = "sale_id")
     private Sale sale;
 
     protected SaleItem() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -38,6 +44,14 @@ public class SaleItem {
 
     public float getTaxes() {
         return taxes;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
     }
 
     public void setCurrentPrice(float currentPrice) {
