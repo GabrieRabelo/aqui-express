@@ -1,13 +1,25 @@
 package com.projarquistao.estoque.adapter.controller;
 
-import com.projarquistao.estoque.application.use_case.*;
+import com.projarquistao.estoque.application.use_case.AddInventoryItemsUC;
+import com.projarquistao.estoque.application.use_case.ListProductsUC;
+import com.projarquistao.estoque.application.use_case.RollbackInventoryUC;
+import com.projarquistao.estoque.application.use_case.SubtotalUC;
+import com.projarquistao.estoque.application.use_case.VerifyInventoryItemAvailabilityUC;
+import com.projarquistao.estoque.application.use_case.VerifySaleAvailabilityUC;
+import com.projarquistao.estoque.application.use_case.WithdrawInventoryUC;
 import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

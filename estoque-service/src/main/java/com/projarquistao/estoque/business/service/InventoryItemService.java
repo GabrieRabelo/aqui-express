@@ -1,9 +1,8 @@
 package com.projarquistao.estoque.business.service;
 
-import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.dto.SaleItemDTO;
-import com.projarquistao.estoque.business.model.Product;
 import com.projarquistao.estoque.business.repository.InventoryItemRepository;
+import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.model.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
