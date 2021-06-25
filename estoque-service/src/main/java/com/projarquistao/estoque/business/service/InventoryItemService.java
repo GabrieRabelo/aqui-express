@@ -4,6 +4,8 @@ import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.repository.InventoryItemRepository;
 import com.projarquistao.estoque.business.dto.ProductDTO;
 import com.projarquistao.estoque.business.model.InventoryItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class InventoryItemService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryItemService.class);
 
     private final InventoryItemRepository inventoryItemRepository;
 
@@ -43,24 +47,31 @@ public class InventoryItemService {
 
     public boolean withdrawInventory(List<SaleItemDTO> saleItems) {
 
-        var toWithdraw = new ArrayList<InventoryItem>();
+        var toWithdraw = new ArrayList<SaleItemDTO>();
 
-        for (SaleItemDTO saleItem : saleItems) {
-            final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
+        try{
+            for (SaleItemDTO saleItem : saleItems) {
+                final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
 
-            if (inventoryItem.isPresent()) {
-                inventoryItem.get().subtractQuantity(saleItem.getQuantity());
-                toWithdraw.add(inventoryItem.get());
-            } else {
-                return false;
+                if (inventoryItem.isPresent()) {
+                    inventoryItem.get().subtractQuantity(saleItem.getQuantity());
+                    toWithdraw.add(saleItem);
+                    inventoryItemRepository.save(inventoryItem.get());
+                } else {
+                    throw new IllegalArgumentException("Produto não encontrado no estoque");
+                }
             }
-        }
 
-        inventoryItemRepository.saveAll(toWithdraw);
-        return true;
+            return true;
+        }catch (IllegalArgumentException e) {
+            LOGGER.error("Rollbacking sale");
+            this.rollbackInventory(toWithdraw);
+            return false;
+        }
     }
 
     public boolean addInventoryItems(List<ProductDTO> products) {
+
         var toAdd = new ArrayList<InventoryItem>();
 
         for (ProductDTO product : products) {

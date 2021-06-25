@@ -27,7 +27,7 @@ public class ConfirmSaleUC {
     public boolean confirmSale(List<SaleItem> saleItem){
         var cancelSale = !canProceedSale(saleItem);
         if(cancelSale){
-            LOGGER.debug("Cancelling sale.");
+            LOGGER.debug("Cancelling sale. Restriction detected.");
             return false;
         }
 
@@ -36,6 +36,7 @@ public class ConfirmSaleUC {
         var withdrawn = inventoryClient.withdrawInventory(saleItem);
 
         if(!withdrawn) {
+            LOGGER.error("Cancelling sale. Withdraw cancelled");
             return false;
         }
 
