@@ -35,6 +35,7 @@ public class InventoryItemService {
 
     public boolean isAllAvailable(List<SaleItemDTO> saleItems) {
 
+        LOGGER.debug("Checking if every inventory item is available.");
         for (SaleItemDTO saleItem : saleItems) {
             final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
 
@@ -49,6 +50,8 @@ public class InventoryItemService {
 
         var toWithdraw = new ArrayList<SaleItemDTO>();
 
+        LOGGER.debug("Withdrawing inventory");
+
         try{
             for (SaleItemDTO saleItem : saleItems) {
                 final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());
@@ -58,6 +61,7 @@ public class InventoryItemService {
                     toWithdraw.add(saleItem);
                     inventoryItemRepository.save(inventoryItem.get());
                 } else {
+                    LOGGER.error("Inventory for item with id {} is empty or inexistent", saleItem.getProductId());
                     throw new IllegalArgumentException("Produto não encontrado no estoque");
                 }
             }
@@ -92,6 +96,8 @@ public class InventoryItemService {
     public boolean rollbackInventory(List<SaleItemDTO> saleItems) {
 
         var toRollback = new ArrayList<InventoryItem>();
+
+        LOGGER.debug("Rollbacking inventory withdraw.");
 
         for (SaleItemDTO saleItem : saleItems) {
             final var inventoryItem = inventoryItemRepository.findById(saleItem.getProductId());

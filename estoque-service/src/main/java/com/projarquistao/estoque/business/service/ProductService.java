@@ -3,6 +3,8 @@ package com.projarquistao.estoque.business.service;
 import com.projarquistao.estoque.business.dto.SaleItemDTO;
 import com.projarquistao.estoque.business.model.Product;
 import com.projarquistao.estoque.business.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class ProductService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     private final ProductRepository productRepository;
 
@@ -24,13 +28,12 @@ public class ProductService {
 
     public boolean isAllAvailable(List<SaleItemDTO> saleItems) {
 
+        LOGGER.debug("Verifying every sale item availability before selling");
         for (SaleItemDTO saleItem : saleItems) {
             final var productOptional = productRepository.findById(saleItem.getProductId());
 
             if (productOptional.isEmpty())
                 return false;
-
-            saleItem.setCurrentPrice(productOptional.get().getPrice());
         }
         return true;
     }

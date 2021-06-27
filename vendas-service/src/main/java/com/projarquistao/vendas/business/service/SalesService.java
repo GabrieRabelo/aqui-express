@@ -31,14 +31,13 @@ public class SalesService {
     public void saveSale(List<SaleItem> saleItems) {
 
         var sale = new Sale();
-        saleRepository.save(sale);
 
-        sale = saleRepository.findById(sale.getId()).get();
-
-        for (SaleItem saleItem : saleItems) {
-            saleItem.setSale(sale);
-            saleItemRepository.save(saleItem);
+        for (SaleItem saleItem: saleItems) {
+            saleItem.setId(null);
+            sale.addSaleItem(saleItem);
         }
+
+        LOGGER.debug("Saving sale with id: {}", sale.getId());
 
         saleRepository.save(sale);
 

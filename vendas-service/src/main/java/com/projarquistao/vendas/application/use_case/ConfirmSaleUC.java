@@ -31,12 +31,12 @@ public class ConfirmSaleUC {
             return false;
         }
 
-        LOGGER.debug("Calling inventory service Withdraw Method");
+        LOGGER.debug("Calling inventory service Withdraw Method.");
 
         var withdrawn = inventoryClient.withdrawInventory(saleItem);
 
         if(!withdrawn) {
-            LOGGER.error("Cancelling sale. Withdraw cancelled");
+            LOGGER.error("Cancelling sale. Withdraw did not proceed for some reason.");
             return false;
         }
 
