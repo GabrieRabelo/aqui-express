@@ -34,6 +34,7 @@ public class ConfirmSaleUC {
         LOGGER.debug("Calling inventory service Withdraw Method.");
 
         var withdrawn = inventoryClient.withdrawInventory(saleItem);
+        LOGGER.debug("withdrawn was {}", withdrawn);
 
         if(!withdrawn) {
             LOGGER.error("Cancelling sale. Withdraw did not proceed for some reason.");
