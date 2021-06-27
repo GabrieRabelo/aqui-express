@@ -27,10 +27,10 @@ public class SaleController {
         this.historyUC = historyUC;
     }
 
-    @PostMapping("/confirmacao")
-    public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
-        return confirmSaleUC.confirmSale(itens);
-    }
+//    @PostMapping("/confirmacao")
+//    public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
+//        return confirmSaleUC.confirmSale(itens);
+//    }
 
     @GetMapping("/historico")
     public List<Sale> vendasEfetuadas() {
