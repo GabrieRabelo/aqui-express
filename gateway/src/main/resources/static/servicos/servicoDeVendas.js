@@ -44,7 +44,7 @@ class ServicoDeVendas {
   }
 
   async confirmaVenda(itens) {
-    const url = this.baseUrl + "/vendas/confirmacao";
+    const url = this.baseUrl + "/vendas-fila/confirmacao";
     const param = [];
 
     itens.forEach((item) => {

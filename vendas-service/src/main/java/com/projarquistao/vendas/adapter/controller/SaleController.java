@@ -16,21 +16,12 @@ import java.util.List;
 @RequestMapping("/vendas")
 public class SaleController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SaleController.class);
-
-    private final ConfirmSaleUC confirmSaleUC;
     private final HistoryUC historyUC;
 
     @Autowired
-    public SaleController(ConfirmSaleUC confirmSaleUC, HistoryUC historyUC) {
-        this.confirmSaleUC = confirmSaleUC;
+    public SaleController(HistoryUC historyUC) {
         this.historyUC = historyUC;
     }
-
-//    @PostMapping("/confirmacao")
-//    public boolean confirmaVenda(@RequestBody final List<SaleItem> itens) {
-//        return confirmSaleUC.confirmSale(itens);
-//    }
 
     @GetMapping("/historico")
     public List<Sale> vendasEfetuadas() {
