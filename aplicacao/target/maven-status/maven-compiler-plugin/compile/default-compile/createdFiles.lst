@@ -1,4 +1,6 @@
-com/projarquistao/aplicacao/SaleItem.class
 com/projarquistao/aplicacao/Aplicacao.class
-com/projarquistao/aplicacao/AplicacaoController.class
-com/projarquistao/aplicacao/AplicacaoService.class
+com/projarquistao/aplicacao/application/dtos/SaleItemDTO.class
+com/projarquistao/aplicacao/adapter/config/SwaggerConfig.class
+com/projarquistao/aplicacao/application/dtos/ProductDTO.class
+com/projarquistao/aplicacao/adapter/controller/AplicacaoController.class
+com/projarquistao/aplicacao/application/AplicacaoService.class
