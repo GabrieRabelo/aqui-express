@@ -48,7 +48,7 @@ class ServicoDeVendas {
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ id: item.product.id, quantity: item.quantity, currentPrice: item.currentPrice, productId: item.product.id });
+      param.push({ quantity: item.quantity, currentPrice: item.currentPrice, productId: item.product.id });
     });
 
     const otherParam = {
