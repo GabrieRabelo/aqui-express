@@ -1,5 +1,9 @@
 package com.projarquistao.vendas.business.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,9 +20,11 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime date;
 
-    @OneToMany(targetEntity = SaleItem.class, mappedBy = "sale", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sale", fetch = FetchType.EAGER, targetEntity = SaleItem.class)
     private List<SaleItem> saleItemList = new ArrayList<>();
 
     public Sale() {
@@ -35,5 +41,11 @@ public class Sale {
 
     public List<SaleItem> getSaleItemList() {
         return saleItemList;
+    }
+
+    public Sale addSaleItem(SaleItem saleItem) {
+        saleItem.setSale(this);
+        this.saleItemList.add(saleItem);
+        return this;
     }
 }

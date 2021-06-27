@@ -87,9 +87,4 @@ public class InventoryController {
         return rollbackInventoryUC.rollback(saleItems);
     }
 
-    @PostMapping("/adicionar")
-    public boolean adicionarEstoque(@RequestBody final List<ProductDTO> products) {
-        LOGGER.debug("Adding new items to inventory.");
-        return addInventoryItemsUC.addInventoryItems(products);
-    }
 }
